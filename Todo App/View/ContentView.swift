@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Todo App
-//
-//  Created by muhammad abdul latief on 15/02/21.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -41,14 +34,34 @@ struct ContentView: View {
             }){
               Image(systemName: "plus")
             }
-            .sheet(isPresented: $showingAddTodoView){
-              AddTodoView().environment(\.managedObjectContext, self.managedObjectContext)
-            })
+          .sheet(isPresented: $showingAddTodoView){
+            AddTodoView().environment(\.managedObjectContext, self.managedObjectContext)
+          }
+        )
         
         if todos.count == 0{
           EmptyListView()
         }
       }
+      .sheet(isPresented: $showingAddTodoView){
+        AddTodoView().environment(\.managedObjectContext, self.managedObjectContext)
+      }
+      .overlay(
+        ZStack{
+          Button(action: {
+            self.showingAddTodoView.toggle()
+          }){
+            Image(systemName: "plus.circle.fill")
+              .resizable()
+              .scaledToFit()
+              .background(Circle().fill(Color("ColorBase")))
+              .frame(width: 48, height: 48, alignment: .center)
+          }
+        }
+        .padding(.bottom, 15)
+        .padding(.trailing, 15)
+        , alignment: .bottomTrailing
+      )
     }
   }
   
